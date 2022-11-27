@@ -16,7 +16,11 @@ app.use(express.json());  //it is a method inbuilt in express to recognize the i
 app.post("/students" , (req, res) => {
     const user  = new Student(req.body); //we use req.body to access the data sent by user to api in body
     console.log(user);
-    res.send("hello from the other side by shubhi");
+    user.save().then(() => {     //to save the data in database
+        res.status(201).send(user);
+    }).catch((e) => {
+        res.status(400).send(e);
+    }); 
 })
 
 app.listen(port , () => {
