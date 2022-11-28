@@ -36,6 +36,38 @@ app.post("/students", async(req, res) => {
 
 })
 
+//to get the data from backend:
+app.get("/students" , async(req, res) => {
+    try{
+        const studentdata =await Student.find();
+        res.send(studentdata);
+    }
+    catch(e){
+        res.send(e);
+    }
+})
+
+//to get individual student data:
+app.get("/students/:id" , async (req, res) => {
+    try{
+        const _id = req.params.id;
+        const studentdatabyid = await Student.findById({_id : _id});
+        console.log(studentdatabyid);
+        if(!studentdatabyid){
+            return res.status(404).send();
+        }else{
+            res.send(studentdatabyid);
+        }
+    }
+    catch(e){
+        res.status(500).send(e);
+        console.log(e);
+    }
+})
+
+
+
+
 
 app.listen(port , () => {
     console.log(`connection is successful at ${port}`);
