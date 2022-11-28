@@ -64,8 +64,35 @@ app.get("/students/:id" , async (req, res) => {
         console.log(e);
     }
 })
+//update students by id:
+
+app.patch("/students/:id", async(req, res) =>{
+    try{
+        const _id = req.params.id;
+        const updateStudent = await Student.findByIdAndUpdate({_id:_id}, req.body, {
+            new: true  //it will show new data in response without it , it displays old data without updation.
+        });
+        res.send(updateStudent);
+    }
+    catch(e){
+        res.status(404).send(e);
+    }
+})
 
 
+//update students by name or email:
+app.patch("/students/:name", async(req, res) =>{
+    try{
+        const name = req.params.name;
+        const updateStudent = await Student.findOneAndUpdate({name: name}, req.body, {
+            new: true  //it will show new data in response without it , it displays old data without updation.
+        });
+        res.send(updateStudent);
+    }
+    catch(e){
+        res.status(404).send(e);
+    }
+})
 
 
 
