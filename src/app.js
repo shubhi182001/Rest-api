@@ -95,6 +95,22 @@ app.patch("/students/:name", async(req, res) =>{
 })
 
 
+//delete api (by id):
+app.delete("/students/:id", async(req, res) => {
+    try{
+        const _id = req.params.id;
+        const deleteStudent = await Student.findByIdAndDelete({_id: _id});
+        if(!_id){
+            return res.status(400).send("id not found")
+        }
+        res.send(deleteStudent);
+    }
+    catch(e){
+        res.status(500).send(e);
+    }
+})
+
+
 
 app.listen(port , () => {
     console.log(`connection is successful at ${port}`);
